@@ -1,19 +1,25 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter, Route } from "react-router-dom";
-import "bootstrap/dist/css/bootstrap.css";
+import "../node_modules/bootstrap/dist/css/bootstrap.css";
 import Product from "./components/Product";
+import Products from "./components/Products";
+import AllProducts from "./components/AllProducts";
 import NavBar from './components/navBar';
 import Home from './components/Home';
 import Orders from './components/orders';
-
-let firstElement = <h1>Hello World!!!</h1>;
+import OrderComplete from './components/OrderComplete';
+//import Products from './components/Products';
+import currencyFile from "./rates";
 
 ReactDOM.render(
 <BrowserRouter>
   <NavBar/>
   <Route exact path="/" component={Home} />
   <Route exact path="/orders" component={Orders} />
+  <Route exact path="/Products/:categoryName" component={Products} />
+  <Route exact path="/Products" component={AllProducts} />
+  <Route exact path="/OrderComplete" component={OrderComplete} />
 </BrowserRouter>
 ,document.getElementById('root'));
 
