@@ -77,7 +77,7 @@ class NavBar extends Component {
       signupUsername: "",
       signupEmail: "",
       signupPassword: "",
-      loginSuccessUserObj: {}
+      loginSuccessUserObj: {},
     };
     //this.myRefs = React.createRef();
     //this.printValues = this.printValues.bind(this);
@@ -526,7 +526,7 @@ class NavBar extends Component {
     //alert(this.state.loginEmail);
   };
 
-  async loginProcess () {
+  async loginProcess() {
     alert(
       this.state.loginEmail +
         " - " +
@@ -548,14 +548,14 @@ class NavBar extends Component {
     var res = null;
     //this.validateUser(userObj);
     try {
-        //const res = await axios.post("localhost:4000/api/auth/", userObj);
-  
-        /*const res = await axios.post("https://masigroapi.herokuapp.com/api/auth",{
+      //const res = await axios.post("localhost:4000/api/auth/", userObj);
+
+      /*const res = await axios.post("https://masigroapi.herokuapp.com/api/auth",{
               userEmail: "zdxfgxdfg",
               userpassword: "fghyj"
           });*/
-        //debugger;
-        /* const res = await axios.interceptors.request.use(
+      //debugger;
+      /* const res = await axios.interceptors.request.use(
               config => {
               config.headers.authorization = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVmNTJlYjZhZDYxZDk1MDAxNzdjYTNiZSIsImN1c0VtYWlsIjoiYWRtaW5AbWFzaWdyby5sayIsImlhdCI6MTU5OTI4NzAxMH0.Pj_n_ZAWwxGritHcktRdllAk0nac4KYK5u6FS59FfnE';
               return config;
@@ -567,20 +567,19 @@ class NavBar extends Component {
           }
           )
           return res;*/
-  
-        /*const login = async (params: ILoginRequest) => {
+
+      /*const login = async (params: ILoginRequest) => {
               const res: IAuthResponse = (await axios.post("localhost:4000/api/auth", params)).data;
               // save tokens to storage
               setAuthTokens(authResponseToAuthTokens(res));
             };*/
-  
-            
-         res = await axios.post("http://localhost:4000/api/auth", {
-          userEmail: userObj.userEmail,
-          userPassword: this.state.loginPassword,
-        });
-        
-  /*
+
+      res = await axios.post("http://localhost:4000/api/auth", {
+        userEmail: userObj.userEmail,
+        userPassword: this.state.loginPassword,
+      });
+
+      /*
         axios
           .post("http://localhost:4000/api/auth", {
             userEmail: userObj.userEmail,
@@ -604,18 +603,21 @@ class NavBar extends Component {
   
         //this.setState({ itemCount : this.state.itemCount + 1 });
         */
-      } catch (error) {
-        alert("Validating Error...");
-        return;
-      }
-    
+    } catch (error) {
+      alert("Validating Error...");
+      return;
+    }
+
     debugger;
     this.accessAuthenticationCookies(res.data);
-    this.setState({loginStatus:
-          this.getCookie("myFName").substring(0, 1) + ". " + this.getCookie("myLName"),
-      });
+    this.setState({
+      loginStatus:
+        this.getCookie("myFName").substring(0, 1) +
+        ". " +
+        this.getCookie("myLName"),
+    });
     //alert(JSON.stringify(res));
-  };
+  }
 
   async validateUser(userObj) {
     try {
@@ -645,13 +647,12 @@ class NavBar extends Component {
             setAuthTokens(authResponseToAuthTokens(res));
           };*/
 
-          
       let res = await axios.post("http://localhost:4000/api/auth", {
         userEmail: userObj.userEmail,
         userPassword: this.state.loginPassword,
       });
-      
-/*
+
+      /*
       axios
         .post("http://localhost:4000/api/auth", {
           userEmail: userObj.userEmail,
@@ -679,49 +680,47 @@ class NavBar extends Component {
       alert("Validating Error...");
       return;
     }
-    
   }
 
   accessAuthenticationCookies = (userObj) => {
     if (
-        this.getCookie("myToken3") == "" ||
-        this.getCookie("myToken3") == null
-      ) {
+      this.getCookie("myToken3") == "" ||
+      this.getCookie("myToken3") == null
+    ) {
+      debugger;
+      this.setCookie("myToken3", userObj.userEmail, 1);
+      this.setCookie("myFName", userObj.userFirstName, 1);
+      this.setCookie("myLName", userObj.userLastName, 1);
+      this.setCookie("myUsername", userObj.username, 1);
+      this.setCookie("myRole", userObj.userRoles, 1);
+      this.setCookie("myUserTokenSetup", new Date(), 1);
+    } else {
+      debugger;
+      var diff =
+        Math.abs(
+          new Date(this.getCookie("myUserTokenSetup")).getTime() -
+            new Date(Date.now() + 1 * 24 * 60 * 60 * 1000)
+        ) / 3600000;
+      //alert(diff);
+      if (diff > 24) {
         debugger;
-        this.setCookie("myToken3", userObj.userEmail, 1);
-        this.setCookie("myFName", userObj.userFirstName, 1);
-        this.setCookie("myLName", userObj.userLastName, 1);
-        this.setCookie("myUsername", userObj.username, 1);
-        this.setCookie("myRole", userObj.userRoles, 1);
-        this.setCookie("myUserTokenSetup", new Date(), 1);
-      } else {
-        debugger;
-        var diff =
-          Math.abs(
-            new Date(this.getCookie("myUserTokenSetup")).getTime() -
-              new Date(Date.now() + 1 * 24 * 60 * 60 * 1000)
-          ) / 3600000;
-        //alert(diff);
-        if (diff > 24) {
-          debugger;
-          alert("Erasing");
-          this.eraseCookie("myToken3");
+        alert("New Login User Adding");
+        this.eraseCookie("myToken3");
         this.eraseCookie("myFName");
         this.eraseCookie("myLName");
         this.eraseCookie("myUsername");
         this.eraseCookie("myRole");
         this.eraseCookie("myUserTokenSetup");
 
-
         this.setCookie("myToken3", userObj.userEmail, 1);
         this.setCookie("myFName", userObj.userFirstName, 1);
         this.setCookie("myLName", userObj.userLastName, 1);
         this.setCookie("myUsername", userObj.username, 1);
         this.setCookie("myRole", userObj.userRoles, 1);
         this.setCookie("myUserTokenSetup", new Date(), 1);
-        }
       }
-  }
+    }
+  };
   ////////////////////////////
 
   setCookie = (name, value, days) => {
@@ -846,20 +845,26 @@ class NavBar extends Component {
 
   async componentDidMount() {
     debugger;
-
     /*this.eraseCookie("myToken3");
     this.eraseCookie("myFName");
     this.eraseCookie("myLName");
     this.eraseCookie("myUsername");
     this.eraseCookie("myRole");
-    this.eraseCookie("myUserTokenSetup");*/
-
-    if(typeof(this.getCookie("myToken3")) != "undefined" && this.getCookie("myToken3") != "" && this.getCookie("myToken3") != null)
-    {
-        this.setState({ loginStatus: this.getCookie("myFName").substr(0,1)+". "+this.getCookie("myLName") });
-    }
-    else{
-        this.setState({ loginStatus: "Signup/Login" });
+    this.eraseCookie("myUserTokenSetup");
+*/
+    if (
+      typeof this.getCookie("myToken3") != "undefined" &&
+      this.getCookie("myToken3") != "" &&
+      this.getCookie("myToken3") != null
+    ) {
+      this.setState({
+        loginStatus:
+          this.getCookie("myFName").substr(0, 1) +
+          ". " +
+          this.getCookie("myLName"),
+      });
+    } else {
+      this.setState({ loginStatus: "Signup/Login" });
     }
     /*this.setState({ loginStatus: (typeof(this.getCookie("myToken3")) != "undefined" || this.getCookie("myToken3") != "" || this.getCookie("myToken3") != null) ? this.getCookie("myFName").substr(0,1)+". "+this.getCookie("myLName") : "Signup/Login"});*/
     var { data } = await axios.get(
@@ -891,8 +896,7 @@ class NavBar extends Component {
     }
 
     var { data } = await axios.get(
-      "https://masigroapi.herokuapp.com/api/orders/" +
-        this.getCookie("myToken3")
+      "http://localhost:4000/api/orders/" + this.getCookie("myToken3")
     );
     //alert(JSON.stringify(productsArr));
     let ordersArray = [];
