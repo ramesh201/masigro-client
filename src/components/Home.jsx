@@ -18,6 +18,17 @@ import {
   DropdownButton,
   Dropdown,
 } from "react-bootstrap";
+import { Link } from "react-router-dom";
+import "bootstrap/dist/css/bootstrap.min.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+    faHome,
+    faShoppingCart,
+    faUserPlus,
+    faSearch,
+    faTrash,
+  } from "@fortawesome/free-solid-svg-icons";
+import { faCoffee2 } from "@fortawesome/fontawesome-svg-core";
 import axios from "axios";
 //import { connect } from "react-redux";
 //import { createStore } from 'redux';
@@ -64,7 +75,10 @@ class Home extends Component {
       currencyCode: "LKR",
       currencyCodePrice: "",
       currencyRateList: [],
-      updatedCurrencyPrice: "0.00"
+      updatedCurrencyPrice: "0.00",
+      showConfModal: false,
+      itemCount: 0
+      //selectedItemCount: 0
     };
   }
 
@@ -78,6 +92,56 @@ class Home extends Component {
             <div>
                 <div style={{float:"left"}}></div>
                 <div style={{float: "right"}}>
+
+
+                <Container>
+              
+                    <Row >
+                      <Col xs={4} md={4}>
+                      <div>
+                <span
+                  style={{
+                    width: "50px",
+                    height: "50px",
+                    borderRadius: 8,
+                    backgroundColor: "green",
+                    color: "white",
+                    fontSize: "15px",
+                    padding: "2px",
+                  }}
+                >
+                  {this.state.itemCount}
+                </span>
+                <Link  onClick={() => { this.singleClick()}} style={{ margin: "0px 1px 0px 1px" }}>
+                 
+                  <FontAwesomeIcon icon={faShoppingCart} /> Orders
+                </Link>
+                </div>
+                      </Col>
+                      <Col xs={10} md={5}>
+                      <DropdownButton
+                  alignRight
+                  title="Select Products"
+                  id="dropdown-menu-align-right"
+                >
+                  <Dropdown.Header>Categories</Dropdown.Header>
+                  <Dropdown.Item eventKey="2">
+                    <Link to="/Products/macbook">MacBooks</Link>
+                  </Dropdown.Item>
+                  <Dropdown.Item eventKey="3">
+                    <Link to="/Products/iphone">iPhones</Link>
+                  </Dropdown.Item>
+                  <Dropdown.Item eventKey="4">
+                    <Link to="/Products/ipad">iPads</Link>
+                  </Dropdown.Item>
+                  <Dropdown.Header>All Products</Dropdown.Header>
+                  <Dropdown.Item eventKey="5">
+                    <Link to="/Products">All Products</Link>
+                  </Dropdown.Item>
+                </DropdownButton>
+                      </Col>
+                      <Col xs={4} md={2}>
+                        
                 <DropdownButton
                                 title={this.state.currencyCode}
                                 id="dropdown-menu-align-right"
@@ -94,7 +158,7 @@ class Home extends Component {
                                     );
                                   }}
                                 >
-                                  EUR
+                                  LKR
                                 </Dropdown.Item>
                                 {this.state.currencyList.map((aCurrency) => (
                                   <Dropdown.Item
@@ -111,9 +175,24 @@ class Home extends Component {
                                   </Dropdown.Item>
                                 ))}
                               </DropdownButton>
+                      </Col>
+                      
+                      
+                    </Row>
+                
+              
+            </Container>
+          
+
+
+                
+
+                
+
                             
                 </div>
             </div>
+            <br/><br/>
           <h1 style={{ backgroundColor: "silver" }}>
             <a onClick={this.navMacBooks}>Apple - MacBooks</a>
           </h1>
@@ -483,15 +562,8 @@ class Home extends Component {
                       </Button>
                     </div>
                     <div style={{ float: "left" }}>
-                      <InputGroup style={{ width: 50 }}>
-                        <InputGroup.Prepend></InputGroup.Prepend>
-                        <FormControl
-                          aria-label="Username"
-                          aria-describedby="basic-addon1"
-                          value={this.state.selectedItemCount}
-                          onChange={() => this.selectedItemCountShowFunc}
-                        />
-                      </InputGroup>
+                      
+                      <input id="selectedProductItemId" type="text" style={{width:40,height:40}} value={this.state.selectedItemCount}/>
                     </div>
                     <div style={{ float: "left" }}>
                       <Button
@@ -516,9 +588,146 @@ class Home extends Component {
             </Button>
           </Modal.Footer>
         </Modal>
+
+        <Modal
+          show={this.state.showConfModal}
+          onHide={this.closeConfModal}
+          size="sm"
+        >
+          <Modal.Header closeButton>
+            <Modal.Title>Confirm Action</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <Container>
+              <Row>
+                <Col>
+                  <Button
+                    onClick={() => {
+                      this.clikcOnShowPopup();
+                    }}
+                  >
+                    Open in popup
+                  </Button>
+                </Col>
+                <Col>
+                  <Button>
+                    <Link
+                      to="/orders"
+                      style={{ margin: "0px 1px 0px 1px", color: "white" }}
+                      onClick={() => {
+                        this.clickOnShowOrderPage();
+                      }}
+                    >
+                      Go to page
+                    </Link>
+                  </Button>
+                </Col>
+              </Row>
+            </Container>
+          </Modal.Body>
+        </Modal>
+
+        <Modal show={this.state.showModal} onHide={this.closeModal} size="lg">
+          <Modal.Header closeButton>
+            <Modal.Title>Checkout Order</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <Container>
+              {
+                this.state.allOrders.filter(x => x.customerToken == this.getCookie("myToken3")).map((orderItem) =>
+                  orderItem.orderArr.map((aOrder) => (
+                    <Row key={orderItem.id + "-"+aOrder.productId}>
+                      <Col xs={7} md={4}>
+                        {aOrder.productName}
+                      </Col>
+                      <Col xs={2} md={2}>
+                        {aOrder.price}
+                      </Col>
+                      <Col xs={4} md={3}>
+                        <div>
+                          <div style={{ float: "left" }}>
+                            <Button
+                              style={{ height: 30, width: 30 }}
+                              onClick={() => {
+                                this.changeItemCount(this.aOrder);
+                              }}
+                            >
+                              +
+                            </Button>
+                          </div>
+                          <div style={{ float: "left" }}>
+                            <InputGroup style={{ width: 40, height: 30 }}>
+                              <InputGroup.Prepend></InputGroup.Prepend>
+                              <FormControl
+                                style={{
+                                  width: 40,
+                                  height: 30,
+                                  fontSize: "small",
+                                }}
+                                aria-label="Username"
+                                aria-describedby="basic-addon1"
+                              />
+                            </InputGroup>
+                          </div>
+                          <div style={{ float: "left" }}>
+                            <Button style={{ height: 30, width: 30 }}>-</Button>
+                          </div>
+                        </div>
+                      </Col>
+                      <Col xs={4} md={2}>
+                        {(aOrder.price * aOrder.qty).toFixed(2)}
+                      </Col>
+                      <Col xs={1} md={1}>
+                        <FontAwesomeIcon key={orderItem.id + "-"+aOrder.productId} icon={faTrash} 
+                        onClick={() => {this.functionCall((orderItem.id + "-"+aOrder.productId),orderItem.orderArr,aOrder)}}/>
+                      </Col>
+                    </Row>
+                  ))
+                )
+              }
+              <Row>
+                <Col style={{ textAlign: "right" }}>
+                  {(500000.0).toFixed(2)}
+                </Col>
+              </Row>
+            </Container>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button
+              variant="secondary"
+              onClick={() => {
+                this.closeModal();
+              }}
+            >
+              Close
+            </Button>
+            <Button
+              variant="primary"
+              
+            >
+              
+              <Link to="/OrderComplete" style={{margin:"0px 1px 0px 1px", color:"white"}} onClick={() => {this.closeAllCartModal()}}>Checkout</Link>
+            </Button>
+          </Modal.Footer>
+        </Modal>
+      
       </React.Fragment>
     );
   }
+
+  singleClick = () => {
+    console.log("Single clicked");
+    if(this.state.itemCount == 0){
+        alert("Cart is empty...");
+        this.setState({ showConfModal: false });
+        
+    }
+    else{
+    this.setState({ showConfModal: true });
+    
+    }
+    return this.state.showConfModal;
+  };
 
   async currency() {
     const res = await fetch(this.state.API_URL);
@@ -588,6 +797,58 @@ class Home extends Component {
 return  /*currencyCode == "LKR" ? price :*/ price * this.state.currencyRateList[currencyCode];
   }
 
+  clikcOnShowPopup = () => {
+    this.setState({ showConfModal: false });
+    this.setState({ showModal: true });
+    return this.state.showConfModal;
+  };
+
+  clickOnShowOrderPage = () => {
+    this.setState({ showConfModal: false });
+    //this.setState({showModal: true});
+    return this.state.showConfModal;
+  };
+
+  closeConfModal = () => {
+    this.setState({ showConfModal: false });
+    return this.state.showConfModal;
+  };
+
+  closeModal = () => {
+    this.setState({ showModal: false });
+    return this.state.showModal;
+  };
+
+  functionCall = (event,fullOrder,selectedOrder) => {
+    debugger;
+    this.updateCart(event,selectedOrder);
+  //console.log(event.target.getAttribute('key'));
+}
+
+async updateCart(componentKey,selectedOrder){
+  var { data } = await axios.get(
+      "http://localhost:4000/api/orders/" + this.getCookie("myToken3")
+    );
+    //alert(JSON.stringify(productsArr));
+    let ordersArray = [];
+    var dataObj = data["orders"];
+    debugger;
+    var didPut = false;
+    var orderId = componentKey.split('-')[0];
+    var existingOrderItems = null;
+    data["orders"].map((orderItem) => {
+       existingOrderItems = orderItem.orderArr;
+    });
+
+    //existingOrderItems = existingOrderItems.splice(existingOrderItems.indexOf(selectedOrder),1);
+    existingOrderItems = existingOrderItems.filter(x => x.productId != selectedOrder.productId);
+
+    const res = await axios.put("http://localhost:4000/api/orders/"+orderId, {
+        orderArr: existingOrderItems
+      });
+    
+}
+
   go11 = () => {
     //alert();
     debugger;
@@ -623,9 +884,25 @@ return  /*currencyCode == "LKR" ? price :*/ price * this.state.currencyRateList[
   handleShow = (obj) => {
     //alert();
     debugger;
+    var didPut = false;
     alert(JSON.stringify(obj));
     this.setState({ modalShow: true });
     this.setState({ selectedProduct: obj });
+    if(this.state.allOrders.length == 0){
+        this.setState({selectedItemCount: 1});
+    }
+    else{
+    this.state.allOrders[0].orderArr.map((orderItem) => {
+if(orderItem.productId == obj.id){
+    didPut = true;
+    this.setState({selectedItemCount: orderItem.qty});
+}
+    });
+}
+
+    if(!didPut)
+    this.setState({selectedItemCount: 1});
+
     return this.state.modalShow;
     //setShow(true);
   };
@@ -637,6 +914,10 @@ return  /*currencyCode == "LKR" ? price :*/ price * this.state.currencyRateList[
     return this.state.modalShow;
   };
 
+  closeAllCartModal = () => {
+    this.setState({showModal: false});
+        }
+  
   navMacBooks = () => {
     //this.props.history.push("/Products");
     this.props.history.push("/Products/macbook");
@@ -722,7 +1003,7 @@ return  /*currencyCode == "LKR" ? price :*/ price * this.state.currencyRateList[
         orderArr: newItemToCart,
       };
       this.addToCart(orderArray);
-
+      this.setState({ itemCount : this.state.itemCount + 1 });
       //return;
     } else {
       var { data } = await axios.get(
@@ -738,9 +1019,10 @@ return  /*currencyCode == "LKR" ? price :*/ price * this.state.currencyRateList[
         orderItem.orderArr.map((anOrder) => {
           if (anOrder.productName == selectedProduct.name) {
             alert("PUT action for order Id: " + orderItem._id);
-            anOrder.qty = 4;
+            anOrder.qty = parseInt(document.getElementById("selectedProductItemId").value);
             didPut = true;
             this.updateOrder(orderItem, orderItem.orderArr);
+            
           }
         });
       });
@@ -756,10 +1038,28 @@ return  /*currencyCode == "LKR" ? price :*/ price * this.state.currencyRateList[
           productId: selectedProduct.id,
           productName: selectedProduct.name,
           price: selectedProduct.price,
-          qty: 2,
+          qty: parseInt(document.getElementById("selectedProductItemId").value),
         };
+        if(data["orders"].length == 0){
+            newOrderItem.orderArr = newItemToCart;
+
+            orderArray = {
+                //id: data["orders"]._id,
+                customerToken: this.getCookie("myToken3"),
+                orderDate: new Date().toLocaleString(),
+                isCompleted: false,
+                orderArr: newItemToCart,
+              };
+              this.addToCart(orderArray);
+              //this.setState({ itemCount : this.state.itemCount + 1 });
+        }
+        else{
         newOrderItem.orderArr.push(newItemToCart);
         this.updateOrder(newOrderItem, newOrderItem.orderArr);
+        this.setState({ itemCount : newOrderItem.orderArr.length });
+        }
+
+        
       }
     }
     /*data["orders"][0].orderArr.map((anOrder) => {
@@ -816,6 +1116,7 @@ return  /*currencyCode == "LKR" ? price :*/ price * this.state.currencyRateList[
 
     try {
       let res = await axios.post("http://localhost:4000/api/orders/", obj);
+      this.setState({ itemCount : this.state.itemCount + 1 });
     } catch (error) {
       alert("Saving Error...");
     }
@@ -954,14 +1255,19 @@ document.cookie = cookieName + "=" + cookieString + ";" + " Path=/; Expires=Thu,
   };
 
   changeItemCount = (counter) => {
+      if((this.state.selectedItemCount + counter) < 1){
+alert("exceeded minimum qty limit");
+      }
+      else{
     this.setState({
       selectedItemCount: this.state.selectedItemCount + counter,
     });
+}
     //alert(this.state.selectedItemCount);
     return this.state.selectedItemCount;
   };
 
-  selectedItemCountShowFunc = () => {
+  selectedItemCountShowFunc = (selectedProd) => {
     return this.state.selectedItemCount;
   };
 
@@ -1009,8 +1315,9 @@ document.cookie = cookieName + "=" + cookieString + ";" + " Path=/; Expires=Thu,
     //this.eraseCookie("myToken3");
     //this.eraseCookie("myUserTokenSetup");
     //alert(this.state.value);
+    this.setState({ loginStatus: (typeof(this.getCookie("myToken3")) != "undefined" || this.getCookie("myToken3") != "") ? this.getCookie("myToken3") : "Signup/Login"});
     this.currency();
-    var { data } = await axios.get("http://localhost:4000/api/products/");
+    var { data } = await axios.get("http://localhost:4000/api/products");
 
     //alert(JSON.stringify(data["products"][0]["productName"]));
     /*alert(
@@ -1069,7 +1376,7 @@ document.cookie = cookieName + "=" + cookieString + ";" + " Path=/; Expires=Thu,
       });
     }
 
-    var { data } = await axios.get("http://localhost:4000/api/orders/");
+    var { data } = await axios.get("http://localhost:4000/api/orders/"+ this.getCookie("myToken3"));
     //alert(JSON.stringify(productsArr));
     let ordersArr = [];
 
@@ -1093,9 +1400,23 @@ document.cookie = cookieName + "=" + cookieString + ";" + " Path=/; Expires=Thu,
       });
     }
 
+    var numberOfItemsObj = 0;
+    numberOfItemsObj =
+      this.getCookie("myToken3") == null ? 0 : (data["orders"].length == 0 ? 0 : ordersArr[0].orderArr.length);
+
+   
+    this.setState({ itemCount: numberOfItemsObj });
+
     this.setState({ allProducts: productsArr });
     this.setState({ allCustomers: customersArr });
-    this.setState({ allOrders: ordersArr });
+    this.setState({
+        allOrders:
+          this.getCookie("myToken3") == null
+            ? []
+            : data["orders"].length == 0
+            ? []
+            : ordersArr,
+      });
     //this.setState({ currencyList: this.currency() });
     //alert(JSON.stringify(this.state.allProducts.filter(objss => objss.categoryName == "iPad")[0].categoryName));
   }
