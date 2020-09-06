@@ -41,9 +41,7 @@ class Product extends Component {
 
       <Collapse in={this.state.open}>
         <div id="example-collapse-text">
-          Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus
-          terry richardson ad squid. Nihil anim keffiyeh helvetica, craft beer
-          labore wes anderson cred nesciunt sapiente ea proident.
+          product details panel here
           <img src="https://images.macrumors.com/t/YrMky4T2__6u5IHmyrBC382tTKE=/800x0/filters:quality(90)/article-new/2018/12/appleproductlineup-800x313.jpg"></img>
         </div>
       </Collapse>
