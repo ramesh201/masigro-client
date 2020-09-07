@@ -288,8 +288,43 @@ class Home extends Component {
 
           <Collapse in={this.state.macBookInfoOpen}>
             <div id="example-collapse-text">
-              {this.state.selectedProduct.Description}
-              <img src="https://images.macrumors.com/t/YrMky4T2__6u5IHmyrBC382tTKE=/800x0/filters:quality(90)/article-new/2018/12/appleproductlineup-800x313.jpg"></img>
+              <br />
+              <Container>
+                <Row>
+                  <Col style={{ textAlign: "center" }}>
+                    {this.state.selectedProduct.name}
+                  </Col>
+                </Row>
+                <Row>
+                  <Col style={{ textAlign: "center" }}>
+                    <img src={this.state.selectedProduct.imgUrl} />
+                  </Col>
+                </Row>
+                <Row>
+                  <Col>Description</Col>
+                  <Col>{this.state.selectedProduct.Description}</Col>
+                </Row>
+                <Row>
+                  <Col>RAM</Col>
+                  <Col>{this.state.selectedProduct.RAMDetails}</Col>
+                </Row>
+                <Row>
+                  <Col>CPU</Col>
+                  <Col>{this.state.selectedProduct.CPUDetails}</Col>
+                </Row>
+                <Row>
+                  <Col>Storage</Col>
+                  <Col>{this.state.selectedProduct.Storage}</Col>
+                </Row>
+                <Row>
+                  <Col>Display</Col>
+                  <Col>{this.state.selectedProduct.Display}</Col>
+                </Row>
+                <Row>
+                  <Col>Price</Col>
+                  <Col>{this.state.selectedProduct.price}</Col>
+                </Row>
+              </Container>
             </div>
           </Collapse>
         </div>
@@ -403,10 +438,43 @@ class Home extends Component {
 
         <Collapse in={this.state.iPhoneInfoOpen}>
           <div id="example-collapse-text">
-            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus
-            terry richardson ad squid. Nihil anim keffiyeh helvetica, craft beer
-            labore wes anderson cred nesciunt sapiente ea proident.
-            <img src="https://images.macrumors.com/t/YrMky4T2__6u5IHmyrBC382tTKE=/800x0/filters:quality(90)/article-new/2018/12/appleproductlineup-800x313.jpg"></img>
+            <br />
+            <Container>
+              <Row>
+                <Col style={{ textAlign: "center" }}>
+                  {this.state.selectedProduct.name}
+                </Col>
+              </Row>
+              <Row>
+                <Col style={{ textAlign: "center" }}>
+                  <img src={this.state.selectedProduct.imgUrl} />
+                </Col>
+              </Row>
+              <Row>
+                <Col>Description</Col>
+                <Col>{this.state.selectedProduct.Description}</Col>
+              </Row>
+              <Row>
+                <Col>RAM</Col>
+                <Col>{this.state.selectedProduct.RAMDetails}</Col>
+              </Row>
+              <Row>
+                <Col>CPU</Col>
+                <Col>{this.state.selectedProduct.CPUDetails}</Col>
+              </Row>
+              <Row>
+                <Col>Storage</Col>
+                <Col>{this.state.selectedProduct.Storage}</Col>
+              </Row>
+              <Row>
+                <Col>Display</Col>
+                <Col>{this.state.selectedProduct.Display}</Col>
+              </Row>
+              <Row>
+                <Col>Price</Col>
+                <Col>{this.state.selectedProduct.price}</Col>
+              </Row>
+            </Container>
           </div>
         </Collapse>
 
@@ -519,10 +587,43 @@ class Home extends Component {
 
         <Collapse in={this.state.iPadInfoOpen}>
           <div id="example-collapse-text">
-            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus
-            terry richardson ad squid. Nihil anim keffiyeh helvetica, craft beer
-            labore wes anderson cred nesciunt sapiente ea proident.
-            <img src="https://images.macrumors.com/t/YrMky4T2__6u5IHmyrBC382tTKE=/800x0/filters:quality(90)/article-new/2018/12/appleproductlineup-800x313.jpg"></img>
+            <br />
+            <Container>
+              <Row>
+                <Col style={{ textAlign: "center" }}>
+                  {this.state.selectedProduct.name}
+                </Col>
+              </Row>
+              <Row>
+                <Col style={{ textAlign: "center" }}>
+                  <img src={this.state.selectedProduct.imgUrl} />
+                </Col>
+              </Row>
+              <Row>
+                <Col>Description</Col>
+                <Col>{this.state.selectedProduct.Description}</Col>
+              </Row>
+              <Row>
+                <Col>RAM</Col>
+                <Col>{this.state.selectedProduct.RAMDetails}</Col>
+              </Row>
+              <Row>
+                <Col>CPU</Col>
+                <Col>{this.state.selectedProduct.CPUDetails}</Col>
+              </Row>
+              <Row>
+                <Col>Storage</Col>
+                <Col>{this.state.selectedProduct.Storage}</Col>
+              </Row>
+              <Row>
+                <Col>Display</Col>
+                <Col>{this.state.selectedProduct.Display}</Col>
+              </Row>
+              <Row>
+                <Col>Price</Col>
+                <Col>{this.state.selectedProduct.price}</Col>
+              </Row>
+            </Container>
           </div>
         </Collapse>
 
@@ -1439,6 +1540,10 @@ document.cookie = cookieName + "=" + cookieString + ";" + " Path=/; Expires=Thu,
         imgUrl: data["products"].imgUrl,
         categoryName: data["products"].categoryName,
         Description: data["products"].Description,
+        RAMDetails: data["products"].RAMDetails,
+        CPUDetails: data["products"].CPUDetails,
+        Storage: data["products"].Storage,
+        Display: data["products"].Display,
         price: data["products"].price,
       });
     } else {
@@ -1449,6 +1554,10 @@ document.cookie = cookieName + "=" + cookieString + ";" + " Path=/; Expires=Thu,
           imgUrl: productItem.imgUrl,
           categoryName: productItem.categoryName,
           Description: productItem.Description,
+          RAMDetails: productItem.RAMDetails,
+          CPUDetails: productItem.CPUDetails,
+          Storage: productItem.Storage,
+          Display: productItem.Display,
           price: productItem.price,
         };
       });

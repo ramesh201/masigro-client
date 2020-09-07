@@ -1,10 +1,15 @@
 import React, { Component } from "react";
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Button, Pagination, Collapse } from "react-bootstrap";
+import { Button, Pagination, Collapse, Container, Row, Col } from "react-bootstrap";
+import axios from "axios";
 
 class Product extends Component {
-  state = { productId: 99, isAvailable: false };
+  state = { productId: 99,
+     isAvailable: false,
+     selectedProduct: {},
+     prodInfoOpen: false
+    };
   render() {
     return (
       <React.Fragment>
@@ -33,25 +38,74 @@ class Product extends Component {
               </a>
 
               <Button
-                onClick={this.go11}
+                onClick={() => {
+                  this.prodDescription(this.props.productItem);
+                }}
                 aria-controls="example-collapse-text"
-                aria-expanded={this.state.open}
+                aria-expanded={this.state.prodInfoOpen}
+                style={{margin:"0px 0px 0px 10px"}}
               >
                 More Info &raquo;
               </Button>
             </div>
           </div>
-        </div>
 
-        <Collapse in={this.state.open}>
+          <Collapse in={this.state.prodInfoOpen}>
           <div id="example-collapse-text">
-            product details panel here
-            <img src="https://images.macrumors.com/t/YrMky4T2__6u5IHmyrBC382tTKE=/800x0/filters:quality(90)/article-new/2018/12/appleproductlineup-800x313.jpg"></img>
+          <br />
+            <Container>
+              <Row>
+                <Col style={{ textAlign: "center" }}>
+                  {this.props.productItem.name}
+                </Col>
+              </Row>
+              <Row>
+                <Col style={{ textAlign: "center" }}>
+                  <img src={this.props.productItem.imgUrl} />
+                </Col>
+              </Row>
+              <Row>
+                <Col>Description</Col>
+                <Col>{this.props.productItem.Description}</Col>
+              </Row>
+              <Row>
+                <Col>RAM</Col>
+                <Col>{this.props.productItem.RAMDetails}</Col>
+              </Row>
+              <Row>
+                <Col>CPU</Col>
+                <Col>{this.props.productItem.CPUDetails}</Col>
+              </Row>
+              <Row>
+                <Col>Storage</Col>
+                <Col>{this.props.productItem.Storage}</Col>
+              </Row>
+              <Row>
+                <Col>Display</Col>
+                <Col>{this.props.productItem.Display}</Col>
+              </Row>
+              <Row>
+                <Col>Price</Col>
+                <Col>{this.props.productItem.price}</Col>
+              </Row>
+            </Container>
           </div>
         </Collapse>
+        
+        </div>
+
+      
       </React.Fragment>
     );
   }
+
+  prodDescription = (obj) => {
+    this.setState({ selectedProduct: obj });
+    this.setState({ prodInfoOpen: !this.state.prodInfoOpen });
+    alert(JSON.stringify(obj));
+    return this.state.iPadInfoOpen;
+  };
+
 }
 
 export default Product;
