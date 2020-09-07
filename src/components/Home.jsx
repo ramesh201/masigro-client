@@ -1,8 +1,8 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import CurrencyFile from "../rates";
-
+import home from "../home";
 //import { addTodo } from "redux/actions";
 
 import {
@@ -22,14 +22,16 @@ import { Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-    faHome,
-    faShoppingCart,
-    faUserPlus,
-    faSearch,
-    faTrash,
-  } from "@fortawesome/free-solid-svg-icons";
+  faHome,
+  faShoppingCart,
+  faUserPlus,
+  faSearch,
+  faTrash,
+} from "@fortawesome/free-solid-svg-icons";
 import { faCoffee2 } from "@fortawesome/fontawesome-svg-core";
 import axios from "axios";
+import nav from "./navBar";
+import Login from "../home";
 //import { connect } from "react-redux";
 //import { createStore } from 'redux';
 //import todoApp from '../node_modules/';
@@ -77,7 +79,8 @@ class Home extends Component {
       currencyRateList: [],
       updatedCurrencyPrice: "0.00",
       showConfModal: false,
-      itemCount: 0
+      itemCount: 0,
+      showAuthConfModal: false,
       //selectedItemCount: 0
     };
   }
@@ -89,110 +92,94 @@ class Home extends Component {
     return (
       <React.Fragment>
         <div>
-            <div>
-                <div style={{float:"left"}}></div>
-                <div style={{float: "right"}}>
-
-
-                <Container>
-              
-                    <Row >
-                      <Col xs={4} md={4}>
-                      <div>
-                <span
-                  style={{
-                    width: "50px",
-                    height: "50px",
-                    borderRadius: 8,
-                    backgroundColor: "green",
-                    color: "white",
-                    fontSize: "15px",
-                    padding: "2px",
-                  }}
-                >
-                  {this.state.itemCount}
-                </span>
-                <Link  onClick={() => { this.singleClick()}} style={{ margin: "0px 1px 0px 1px" }}>
-                 
-                  <FontAwesomeIcon icon={faShoppingCart} /> Orders
-                </Link>
-                </div>
-                      </Col>
-                      <Col xs={10} md={5}>
-                      <DropdownButton
-                  alignRight
-                  title="Select Products"
-                  id="dropdown-menu-align-right"
-                >
-                  <Dropdown.Header>Categories</Dropdown.Header>
-                  <Dropdown.Item eventKey="2">
-                    <Link to="/Products/macbook">MacBooks</Link>
-                  </Dropdown.Item>
-                  <Dropdown.Item eventKey="3">
-                    <Link to="/Products/iphone">iPhones</Link>
-                  </Dropdown.Item>
-                  <Dropdown.Item eventKey="4">
-                    <Link to="/Products/ipad">iPads</Link>
-                  </Dropdown.Item>
-                  <Dropdown.Header>All Products</Dropdown.Header>
-                  <Dropdown.Item eventKey="5">
-                    <Link to="/Products">All Products</Link>
-                  </Dropdown.Item>
-                </DropdownButton>
-                      </Col>
-                      <Col xs={4} md={2}>
-                        
-                <DropdownButton
-                                title={this.state.currencyCode}
-                                id="dropdown-menu-align-right"
-                                style={{ width: 50, height: 30, fontSize: 10 }}
-                                size="sm"
-                                fontSize="4"
-                              >
-                                <Dropdown.Item key="LKR"
-                                  eventKey="LKR"
-                                  onClick={() => {
-                                    this.changeCurrency(
-                                      "LKR",
-                                      "productItem.price"
-                                    );
-                                  }}
-                                >
-                                  LKR
-                                </Dropdown.Item>
-                                {this.state.currencyList.map((aCurrency) => (
-                                  <Dropdown.Item
-                                    eventKey={aCurrency}
-                                    key={aCurrency}
-                                    onClick={() => {
-                                      this.changeCurrency(
-                                        aCurrency,
-                                        "productItem.price"
-                                      );
-                                    }}
-                                  >
-                                    {aCurrency}
-                                  </Dropdown.Item>
-                                ))}
-                              </DropdownButton>
-                      </Col>
-                      
-                      
-                    </Row>
-                
-              
-            </Container>
-          
-
-
-                
-
-                
-
-                            
-                </div>
+          <div>
+            <div style={{ float: "left" }}></div>
+            <div style={{ float: "right" }}>
+              <Container>
+                <Row>
+                  <Col xs={4} md={4}>
+                    <div>
+                      <span
+                        style={{
+                          width: "50px",
+                          height: "50px",
+                          borderRadius: 8,
+                          backgroundColor: "green",
+                          color: "white",
+                          fontSize: "15px",
+                          padding: "2px",
+                        }}
+                      >
+                        {this.state.itemCount}
+                      </span>
+                      <Link
+                        onClick={() => {
+                          this.singleClick();
+                        }}
+                        style={{ margin: "0px 1px 0px 1px" }}
+                      >
+                        <FontAwesomeIcon icon={faShoppingCart} /> Orders
+                      </Link>
+                    </div>
+                  </Col>
+                  <Col xs={10} md={5}>
+                    <DropdownButton
+                      alignRight
+                      title="Select Products"
+                      id="dropdown-menu-align-right"
+                    >
+                      <Dropdown.Header>Categories</Dropdown.Header>
+                      <Dropdown.Item eventKey="2">
+                        <Link to="/Products/macbook">MacBooks</Link>
+                      </Dropdown.Item>
+                      <Dropdown.Item eventKey="3">
+                        <Link to="/Products/iphone">iPhones</Link>
+                      </Dropdown.Item>
+                      <Dropdown.Item eventKey="4">
+                        <Link to="/Products/ipad">iPads</Link>
+                      </Dropdown.Item>
+                      <Dropdown.Header>All Products</Dropdown.Header>
+                      <Dropdown.Item eventKey="5">
+                        <Link to="/Products">All Products</Link>
+                      </Dropdown.Item>
+                    </DropdownButton>
+                  </Col>
+                  <Col xs={4} md={2}>
+                    <DropdownButton
+                      title={this.state.currencyCode}
+                      id="dropdown-menu-align-right"
+                      style={{ width: 50, height: 30, fontSize: 10 }}
+                      size="sm"
+                      fontSize="4"
+                    >
+                      <Dropdown.Item
+                        key="LKR"
+                        eventKey="LKR"
+                        onClick={() => {
+                          this.changeCurrency("LKR", "productItem.price");
+                        }}
+                      >
+                        LKR
+                      </Dropdown.Item>
+                      {this.state.currencyList.map((aCurrency) => (
+                        <Dropdown.Item
+                          eventKey={aCurrency}
+                          key={aCurrency}
+                          onClick={() => {
+                            this.changeCurrency(aCurrency, "productItem.price");
+                          }}
+                        >
+                          {aCurrency}
+                        </Dropdown.Item>
+                      ))}
+                    </DropdownButton>
+                  </Col>
+                </Row>
+              </Container>
             </div>
-            <br/><br/>
+          </div>
+          <br />
+          <br />
           <h1 style={{ backgroundColor: "silver" }}>
             <a onClick={this.navMacBooks}>Apple - MacBooks</a>
           </h1>
@@ -231,7 +218,8 @@ class Home extends Component {
                                 size="sm"
                                 fontSize="4"
                               >
-                                <Dropdown.Item key="LKR"
+                                <Dropdown.Item
+                                  key="LKR"
                                   eventKey="LKR"
                                   onClick={() => {
                                     this.changeCurrency(
@@ -264,12 +252,14 @@ class Home extends Component {
                                 margin: "5px 0px 0px 15px",
                               }}
                             >
-                              { this.showUpdatedPrice(this.state.currencyCode,productItem.price) }
+                              {this.showUpdatedPrice(
+                                this.state.currencyCode,
+                                productItem.price
+                              )}
                             </div>
                           </div>
                         </div>
-                        <br />{" "}
-                        <br/>
+                        <br /> <br />
                         <Button
                           variant="primary"
                           className="btn btn-success"
@@ -359,7 +349,7 @@ class Home extends Component {
                               </Dropdown.Item>
                               {this.state.currencyList.map((aCurrency) => (
                                 <Dropdown.Item
-                                key={aCurrency}
+                                  key={aCurrency}
                                   eventKey={aCurrency}
                                   onClick={() => {
                                     this.changeCurrency(
@@ -383,7 +373,8 @@ class Home extends Component {
                           </div>
                         </div>
                       </div>
-                      <br /><br/>
+                      <br />
+                      <br />
                       <Button
                         variant="primary"
                         className="btn btn-success"
@@ -456,7 +447,6 @@ class Home extends Component {
                           }}
                         >
                           <div style={{ float: "left" }}>
-                            
                             <DropdownButton
                               title={this.state.currencyCode}
                               id="dropdown-menu-align-right"
@@ -475,7 +465,7 @@ class Home extends Component {
                               </Dropdown.Item>
                               {this.state.currencyList.map((aCurrency) => (
                                 <Dropdown.Item
-                                key={aCurrency}
+                                  key={aCurrency}
                                   eventKey={aCurrency}
                                   onClick={() => {
                                     this.changeCurrency(
@@ -500,7 +490,7 @@ class Home extends Component {
                         </div>
                         <br />
                       </div>
-<br/>
+                      <br />
                       <Button
                         variant="primary"
                         className="btn btn-success"
@@ -562,8 +552,12 @@ class Home extends Component {
                       </Button>
                     </div>
                     <div style={{ float: "left" }}>
-                      
-                      <input id="selectedProductItemId" type="text" style={{width:40,height:40}} value={this.state.selectedItemCount}/>
+                      <input
+                        id="selectedProductItemId"
+                        type="text"
+                        style={{ width: 40, height: 40 }}
+                        value={this.state.selectedItemCount}
+                      />
                     </div>
                     <div style={{ float: "left" }}>
                       <Button
@@ -633,10 +627,11 @@ class Home extends Component {
           </Modal.Header>
           <Modal.Body>
             <Container>
-              {
-                this.state.allOrders.filter(x => x.customerToken == this.getCookie("myToken3")).map((orderItem) =>
+              {this.state.allOrders
+                .filter((x) => x.customerToken == home.getCookie("myToken3"))
+                .map((orderItem) =>
                   orderItem.orderArr.map((aOrder) => (
-                    <Row key={orderItem.id + "-"+aOrder.productId}>
+                    <Row key={orderItem.id + "-" + aOrder.productId}>
                       <Col xs={7} md={4}>
                         {aOrder.productName}
                       </Col>
@@ -678,13 +673,21 @@ class Home extends Component {
                         {(aOrder.price * aOrder.qty).toFixed(2)}
                       </Col>
                       <Col xs={1} md={1}>
-                        <FontAwesomeIcon key={orderItem.id + "-"+aOrder.productId} icon={faTrash} 
-                        onClick={() => {this.functionCall((orderItem.id + "-"+aOrder.productId),orderItem.orderArr,aOrder)}}/>
+                        <FontAwesomeIcon
+                          key={orderItem.id + "-" + aOrder.productId}
+                          icon={faTrash}
+                          onClick={() => {
+                            this.functionCall(
+                              orderItem.id + "-" + aOrder.productId,
+                              orderItem.orderArr,
+                              aOrder
+                            );
+                          }}
+                        />
                       </Col>
                     </Row>
                   ))
-                )
-              }
+                )}
               <Row>
                 <Col style={{ textAlign: "right" }}>
                   {(500000.0).toFixed(2)}
@@ -701,30 +704,95 @@ class Home extends Component {
             >
               Close
             </Button>
-            <Button
-              variant="primary"
-              
-            >
-              
-              <Link to="/OrderComplete" style={{margin:"0px 1px 0px 1px", color:"white"}} onClick={() => {this.closeAllCartModal()}}>Checkout</Link>
+            <Button variant="primary">
+              <Link
+                to="/OrderComplete"
+                style={{ margin: "0px 1px 0px 1px", color: "white" }}
+                onClick={() => {
+                  this.closeAllCartModal();
+                }}
+              >
+                Checkout
+              </Link>
             </Button>
           </Modal.Footer>
         </Modal>
-      
+
+        <Modal
+          show={this.state.showAuthConfModal}
+          onHide={this.closeAuthConfModal}
+          size="sm"
+        >
+          <Modal.Header closeButton>
+            <Modal.Title>Login</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <Container>
+              <Row>Email</Row>
+              <Row>
+                <input
+                  id="loginEmailId"
+                  type="text"
+                  onChange={() => {
+                    this.updateLoginForm();
+                  }}
+                />
+              </Row>
+              <Row>Password</Row>
+              <Row>
+                <input
+                  id="loginPasswordId"
+                  type="password"
+                  onChange={() => {
+                    this.updateLoginForm();
+                  }}
+                />
+              </Row>
+              <Row style={{ margin: "10px 0px 10px 0px" }}>
+                <Link
+                  onClick={() => {
+                    this.clickOnShowSignupModal();
+                  }}
+                >
+                  Create an account &raquo;
+                </Link>
+              </Row>
+              <Row>
+                <Col>
+                  <Button
+                    onClick={() => {
+                      this.loginProcess();
+                    }}
+                  >
+                    Login
+                  </Button>
+                </Col>
+                <Col>
+                  <Button
+                    variant="secondary"
+                    onClick={() => {
+                      this.closeAuthConfModal();
+                    }}
+                  >
+                    Close
+                  </Button>
+                </Col>
+              </Row>
+            </Container>
+          </Modal.Body>
+        </Modal>
       </React.Fragment>
     );
   }
 
   singleClick = () => {
     console.log("Single clicked");
-    if(this.state.itemCount == 0){
-        alert("Cart is empty...");
-        this.setState({ showConfModal: false });
-        
-    }
-    else{
-    this.setState({ showConfModal: true });
-    
+    if (this.state.itemCount == 0) {
+      alert("Cart is empty...");
+      this.setState({ showConfModal: false });
+    } else {
+      this.loadUserOrders();
+      this.setState({ showConfModal: true });
     }
     return this.state.showConfModal;
   };
@@ -754,30 +822,34 @@ class Home extends Component {
         }
       )*/
 
-      //getData() {
-        // create a new XMLHttpRequest
-        var xhr = new XMLHttpRequest()
-    
-        // get a callback when the server responds
-        xhr.addEventListener('load', () => {
-          // update the state of the component with the result here
-          console.log(xhr.responseText)
-        })
-        // open the request with the verb and the url
-        xhr.open('GET', this.state.API_URL)
-        debugger;
-        // send the request
-        xhr.send()
-        debugger;
-      //}
+    //getData() {
+    // create a new XMLHttpRequest
+    var xhr = new XMLHttpRequest();
+
+    // get a callback when the server responds
+    xhr.addEventListener("load", () => {
+      // update the state of the component with the result here
+      console.log(xhr.responseText);
+    });
+    // open the request with the verb and the url
+    xhr.open("GET", this.state.API_URL);
+    debugger;
+    // send the request
+    xhr.send();
+    debugger;
+    //}
 
     //alert(JSON.stringify(data.rates));
-    this.setState({ currencyRateList: importedCurrencyFile.currencyRateList.rates });
-    this.setState({ currencyList: Object.keys(importedCurrencyFile.currencyRateList.rates) });
+    this.setState({
+      currencyRateList: importedCurrencyFile.currencyRateList.rates,
+    });
+    this.setState({
+      currencyList: Object.keys(importedCurrencyFile.currencyRateList.rates),
+    });
     return this.state.currencyList;
   }
   changeCurrency = (currencyParam, priceParam) => {
-      debugger;
+    debugger;
     //alert(currencyParam + " - " + priceParam);
     //var currencyFile = CurrencyFile;
     //alert(currencyFile);
@@ -786,17 +858,21 @@ class Home extends Component {
         debugger;
     }
     */
-   selectedCurrencyAmount = this.state.currencyRateList[currencyParam];
-    
-    
+    selectedCurrencyAmount = this.state.currencyRateList[currencyParam];
+
     this.setState({ currencyCode: currencyParam });
     this.setState({ currencyCodePrice: selectedCurrencyAmount });
-    this.setState({ updatedCurrencyPrice: priceParam * selectedCurrencyAmount });
+    this.setState({
+      updatedCurrencyPrice: priceParam * selectedCurrencyAmount,
+    });
   };
 
-  showUpdatedPrice = (currencyCode,price) => {
-return  /*currencyCode == "LKR" ? price :*/ price * this.state.currencyRateList[currencyCode];
-  }
+  showUpdatedPrice = (currencyCode, price) => {
+    return (
+      /*currencyCode == "LKR" ? price :*/ price *
+      this.state.currencyRateList[currencyCode]
+    );
+  };
 
   clikcOnShowPopup = () => {
     this.setState({ showConfModal: false });
@@ -820,35 +896,43 @@ return  /*currencyCode == "LKR" ? price :*/ price * this.state.currencyRateList[
     return this.state.showModal;
   };
 
-  functionCall = (event,fullOrder,selectedOrder) => {
+  functionCall = (event, fullOrder, selectedOrder) => {
     debugger;
-    this.updateCart(event,selectedOrder);
-  //console.log(event.target.getAttribute('key'));
-}
+    //alert();
+    this.updateCart(event, selectedOrder);
+    //console.log(event.target.getAttribute('key'));
+  };
 
-async updateCart(componentKey,selectedOrder){
-  var { data } = await axios.get(
-      "http://localhost:4000/api/orders/" + this.getCookie("myToken3")
+  async updateCart(componentKey, selectedOrder) {
+    var { data } = await axios.get(
+      "http://localhost:4000/api/orders/" + home.getCookie("myToken3")
     );
     //alert(JSON.stringify(productsArr));
     let ordersArray = [];
     var dataObj = data["orders"];
     debugger;
     var didPut = false;
-    var orderId = componentKey.split('-')[0];
+    var orderId = componentKey.split("-")[0];
     var existingOrderItems = null;
     data["orders"].map((orderItem) => {
-       existingOrderItems = orderItem.orderArr;
+      existingOrderItems = orderItem.orderArr;
     });
 
     //existingOrderItems = existingOrderItems.splice(existingOrderItems.indexOf(selectedOrder),1);
-    existingOrderItems = existingOrderItems.filter(x => x.productId != selectedOrder.productId);
+    existingOrderItems = existingOrderItems.filter(
+      (x) => x.productId != selectedOrder.productId
+    );
 
-    const res = await axios.put("http://localhost:4000/api/orders/"+orderId, {
-        orderArr: existingOrderItems
-      });
-    
-}
+    const res = await axios.put("http://localhost:4000/api/orders/" + orderId, {
+      orderArr: existingOrderItems,
+    });
+
+    this.setState({ showModal: false });
+    //document.location.reload(true);
+    this.setState({ showModal: true });
+    this.loadUserOrders();
+    return this.state.showModal;
+  }
 
   go11 = () => {
     //alert();
@@ -885,25 +969,30 @@ async updateCart(componentKey,selectedOrder){
   handleShow = (obj) => {
     //alert();
     debugger;
-    var didPut = false;
-    alert(JSON.stringify(obj));
-    this.setState({ modalShow: true });
-    this.setState({ selectedProduct: obj });
-    if(this.state.allOrders.length == 0){
-        this.setState({selectedItemCount: 1});
+    if (
+      home.getCookie("myToken3") == null ||
+      typeof home.getCookie("myToken3") == "undefined"
+    ) {
+      //alert(nav.props);
+      this.setState({ showAuthConfModal: true, modalShow: false });
+    } else {
+      var didPut = false;
+      alert(JSON.stringify(obj));
+      this.setState({ modalShow: true });
+      this.setState({ selectedProduct: obj });
+      if (this.state.allOrders.length == 0) {
+        this.setState({ selectedItemCount: 1 });
+      } else {
+        this.state.allOrders[0].orderArr.map((orderItem) => {
+          if (orderItem.productId == obj.id) {
+            didPut = true;
+            this.setState({ selectedItemCount: orderItem.qty });
+          }
+        });
+      }
+
+      if (!didPut) this.setState({ selectedItemCount: 1 });
     }
-    else{
-    this.state.allOrders[0].orderArr.map((orderItem) => {
-if(orderItem.productId == obj.id){
-    didPut = true;
-    this.setState({selectedItemCount: orderItem.qty});
-}
-    });
-}
-
-    if(!didPut)
-    this.setState({selectedItemCount: 1});
-
     return this.state.modalShow;
     //setShow(true);
   };
@@ -912,13 +1001,14 @@ if(orderItem.productId == obj.id){
     //alert();
     debugger;
     this.setState({ modalShow: false });
+    window.location.reload(true);
     return this.state.modalShow;
   };
 
   closeAllCartModal = () => {
-    this.setState({showModal: false});
-        }
-  
+    this.setState({ showModal: false });
+  };
+
   navMacBooks = () => {
     //this.props.history.push("/Products");
     this.props.history.push("/Products/macbook");
@@ -968,14 +1058,19 @@ if(orderItem.productId == obj.id){
     //this.setCookie("myToken3", "18802-9802-95873", 1);
     alert("Saving to DB...");
     this.getCustomerOrders(this.state.selectedProduct);
+    this.loadUserOrders();
   };
 
   async getCustomerOrders(selectedProduct) {
+    var orderArray = {};
     if (
-      this.getCookie("myToken3") == null ||
-      typeof this.getCookie("myToken3") == "undefined"
+      home.getCookie("myToken3") == null ||
+      typeof home.getCookie("myToken3") == "undefined"
     ) {
-      var randomToken =
+      //alert(nav.props);
+      this.setState({ showAuthConfModal: true });
+
+      /*var randomToken =
         Math.floor(Math.random() * 100000 + 1).toString() +
         "-" +
         Math.floor(Math.random() * 100000 + 1).toString() +
@@ -997,7 +1092,6 @@ if(orderItem.productId == obj.id){
       ];
 
       orderArray = {
-        //id: data["orders"]._id,
         customerToken: this.getCookie("myToken3"),
         orderDate: new Date().toLocaleString(),
         isCompleted: false,
@@ -1005,10 +1099,11 @@ if(orderItem.productId == obj.id){
       };
       this.addToCart(orderArray);
       this.setState({ itemCount : this.state.itemCount + 1 });
-      //return;
+      */
     } else {
+      //alert("hi");
       var { data } = await axios.get(
-        "http://localhost:4000/api/orders/" + this.getCookie("myToken3")
+        "http://localhost:4000/api/orders/" + home.getCookie("myToken3")
       );
       //alert(JSON.stringify(productsArr));
       let ordersArray = [];
@@ -1020,10 +1115,11 @@ if(orderItem.productId == obj.id){
         orderItem.orderArr.map((anOrder) => {
           if (anOrder.productName == selectedProduct.name) {
             alert("PUT action for order Id: " + orderItem._id);
-            anOrder.qty = parseInt(document.getElementById("selectedProductItemId").value);
+            anOrder.qty = parseInt(
+              document.getElementById("selectedProductItemId").value
+            );
             didPut = true;
             this.updateOrder(orderItem, orderItem.orderArr);
-            
           }
         });
       });
@@ -1041,26 +1137,23 @@ if(orderItem.productId == obj.id){
           price: selectedProduct.price,
           qty: parseInt(document.getElementById("selectedProductItemId").value),
         };
-        if(data["orders"].length == 0){
-            newOrderItem.orderArr = newItemToCart;
+        if (data["orders"].length == 0) {
+          newOrderItem.orderArr = newItemToCart;
 
-            orderArray = {
-                //id: data["orders"]._id,
-                customerToken: this.getCookie("myToken3"),
-                orderDate: new Date().toLocaleString(),
-                isCompleted: false,
-                orderArr: newItemToCart,
-              };
-              this.addToCart(orderArray);
-              //this.setState({ itemCount : this.state.itemCount + 1 });
+          orderArray = {
+            //id: data["orders"]._id,
+            customerToken: home.getCookie("myToken3"),
+            orderDate: new Date().toLocaleString(),
+            isCompleted: false,
+            orderArr: newItemToCart,
+          };
+          this.addToCart(orderArray);
+          //this.setState({ itemCount : this.state.itemCount + 1 });
+        } else {
+          newOrderItem.orderArr.push(newItemToCart);
+          this.updateOrder(newOrderItem, newOrderItem.orderArr);
+          this.setState({ itemCount: newOrderItem.orderArr.length });
         }
-        else{
-        newOrderItem.orderArr.push(newItemToCart);
-        this.updateOrder(newOrderItem, newOrderItem.orderArr);
-        this.setState({ itemCount : newOrderItem.orderArr.length });
-        }
-
-        
       }
     }
     /*data["orders"][0].orderArr.map((anOrder) => {
@@ -1088,6 +1181,9 @@ if(orderItem.productId == obj.id){
           };
         });
       }*/
+
+    this.setState({ modalShow: false });
+    //window.location.reload(true);
   }
 
   async updateOrder(obj, updateingOrder) {
@@ -1117,7 +1213,7 @@ if(orderItem.productId == obj.id){
 
     try {
       let res = await axios.post("http://localhost:4000/api/orders/", obj);
-      this.setState({ itemCount : this.state.itemCount + 1 });
+      this.setState({ itemCount: this.state.itemCount + 1 });
     } catch (error) {
       alert("Saving Error...");
     }
@@ -1228,7 +1324,7 @@ document.cookie = cookieName + "=" + cookieString + ";" + " Path=/; Expires=Thu,
       //alert(diff);
       if (diff > 24) {
         debugger;
-        alert("Erasing");
+        //alert("Erasing");
         this.eraseCookie("myUserToken");
         this.eraseCookie("myUserTokenSetup");
 
@@ -1241,7 +1337,7 @@ document.cookie = cookieName + "=" + cookieString + ";" + " Path=/; Expires=Thu,
   };
 
   increaseItemCount = (counter) => {
-    alert();
+    //alert();
     this.setState({
       selectedItemCount: this.state.selectedItemCount + counter,
     });
@@ -1256,14 +1352,13 @@ document.cookie = cookieName + "=" + cookieString + ";" + " Path=/; Expires=Thu,
   };
 
   changeItemCount = (counter) => {
-      if((this.state.selectedItemCount + counter) < 1){
-alert("exceeded minimum qty limit");
-      }
-      else{
-    this.setState({
-      selectedItemCount: this.state.selectedItemCount + counter,
-    });
-}
+    if (this.state.selectedItemCount + counter < 1) {
+      alert("exceeded minimum qty limit");
+    } else {
+      this.setState({
+        selectedItemCount: this.state.selectedItemCount + counter,
+      });
+    }
     //alert(this.state.selectedItemCount);
     return this.state.selectedItemCount;
   };
@@ -1272,42 +1367,42 @@ alert("exceeded minimum qty limit");
     return this.state.selectedItemCount;
   };
 
-  setCookie = (name, value, days) => {
-    debugger;
-    var expires = "";
-    if (days) {
-      var date = new Date();
-      date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
-      expires = "; expires=" + date.toUTCString();
-    }
-    document.cookie = name + "=" + (value || "") + expires + "; path=/";
-  };
-  getCookie = (name) => {
-    var nameEQ = name + "=";
-    var ca = document.cookie.split(";");
-    for (var i = 0; i < ca.length; i++) {
-      var c = ca[i];
-      while (c.charAt(0) == " ") c = c.substring(1, c.length);
-      if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
-    }
-    return null;
-  };
+  async loadUserOrders() {
+    var { data } = await axios.get(
+      "http://localhost:4000/api/orders/" + home.getCookie("myToken3")
+    );
+    //alert(JSON.stringify(productsArr));
+    let ordersArr = [];
 
-  getCookieExpirationDate = (name) => {
-    var nameEQ = name + "=";
-    var ca = document.cookie.split(";");
-    for (var i = 0; i < ca.length; i++) {
-      var c = ca[i];
-      while (c.charAt(0) == " ") c = c.substring(1, c.length);
-      if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+    if (data["orders"][0] == null) {
+      ordersArr.push({
+        id: data["orders"]._id,
+        customerToken: data["orders"].customerToken,
+        orderDate: data["orders"].orderDate,
+        isCompleted: data["orders"].isCompleted,
+        orderArr: data["orders"].orderArr,
+      });
+    } else {
+      ordersArr = data["orders"].map((orderItem) => {
+        return {
+          id: orderItem._id,
+          customerToken: orderItem.customerToken,
+          orderDate: orderItem.orderDate,
+          isCompleted: orderItem.isCompleted,
+          orderArr: orderItem.orderArr,
+        };
+      });
     }
-    return null;
-  };
 
-  eraseCookie = (name) => {
-    document.cookie =
-      name + "=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;";
-  };
+    this.setState({
+      allOrders:
+        home.getCookie("myToken3") == null
+          ? []
+          : data["orders"].length == 0
+          ? []
+          : ordersArr,
+    });
+  }
 
   async componentDidMount() {
     //debugger;
@@ -1316,7 +1411,15 @@ alert("exceeded minimum qty limit");
     //this.eraseCookie("myToken3");
     //this.eraseCookie("myUserTokenSetup");
     //alert(this.state.value);
-    this.setState({ loginStatus: (typeof(this.getCookie("myToken3")) != "undefined" || this.getCookie("myToken3") != "") ? this.getCookie("myToken3") : "Signup/Login"});
+    //this.setState({ showModal: true });
+    //home.currUserMailAddress(home.getCookie("myToken3"));
+    this.setState({
+      loginStatus:
+        typeof home.getCookie("myToken3") != "undefined" ||
+        home.getCookie("myToken3") != ""
+          ? home.getCookie("myToken3")
+          : "Signup/Login",
+    });
     this.currency();
     var { data } = await axios.get("http://localhost:4000/api/products");
 
@@ -1377,7 +1480,9 @@ alert("exceeded minimum qty limit");
       });
     }
 
-    var { data } = await axios.get("http://localhost:4000/api/orders/"+ this.getCookie("myToken3"));
+    var { data } = await axios.get(
+      "http://localhost:4000/api/orders/" + home.getCookie("myToken3")
+    );
     //alert(JSON.stringify(productsArr));
     let ordersArr = [];
 
@@ -1403,21 +1508,24 @@ alert("exceeded minimum qty limit");
 
     var numberOfItemsObj = 0;
     numberOfItemsObj =
-      this.getCookie("myToken3") == null ? 0 : (data["orders"].length == 0 ? 0 : ordersArr[0].orderArr.length);
+      home.getCookie("myToken3") == null
+        ? 0
+        : data["orders"].length == 0
+        ? 0
+        : ordersArr[0].orderArr.length;
 
-   
     this.setState({ itemCount: numberOfItemsObj });
 
     this.setState({ allProducts: productsArr });
     this.setState({ allCustomers: customersArr });
     this.setState({
-        allOrders:
-          this.getCookie("myToken3") == null
-            ? []
-            : data["orders"].length == 0
-            ? []
-            : ordersArr,
-      });
+      allOrders:
+        home.getCookie("myToken3") == null
+          ? []
+          : data["orders"].length == 0
+          ? []
+          : ordersArr,
+    });
     //this.setState({ currencyList: this.currency() });
     //alert(JSON.stringify(this.state.allProducts.filter(objss => objss.categoryName == "iPad")[0].categoryName));
   }
