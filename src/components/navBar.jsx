@@ -37,6 +37,8 @@ import {
   IAuthTokens,
 } from "axios-jwt";
 
+import { API_BACKEND_ENDPOINT_SERVER } from "../constants/Config";
+
 //import { connect } from 'react-redux';
 //import { addTodo } from '../redux/actions'
 
@@ -174,8 +176,8 @@ class NavBar extends Component {
                   {this.state.numberOfItems == 0
                     ? 0
                     : this.state.numberOfItems < 10
-                    ? "0" + this.state.numberOfItems
-                    : this.state.numberOfItems}
+                      ? "0" + this.state.numberOfItems
+                      : this.state.numberOfItems}
                 </span>
                 <Link
                   onClick={() => {
@@ -248,66 +250,66 @@ class NavBar extends Component {
                   <Col>No Orders</Col>
                 </Row>
               ) : (
-                this.state.allOrders.map((orderItem) =>
-                  orderItem.orderArr.map((aOrder) => (
-                    <Row key={orderItem.id + "-" + aOrder.productId}>
-                      <Col xs={7} md={4}>
-                        {aOrder.productName}
-                      </Col>
-                      <Col xs={2} md={2}>
-                        {aOrder.price}
-                      </Col>
-                      <Col xs={4} md={3}>
-                        <div>
-                          <div style={{ float: "left" }}>
-                            <Button
-                              style={{ height: 30, width: 30 }}
-                              onClick={() => {
-                                this.changeItemCount(this.aOrder);
-                              }}
-                            >
-                              +
-                            </Button>
-                          </div>
-                          <div style={{ float: "left" }}>
-                            <InputGroup style={{ width: 40, height: 30 }}>
-                              <InputGroup.Prepend></InputGroup.Prepend>
-                              <FormControl
-                                style={{
-                                  width: 40,
-                                  height: 30,
-                                  fontSize: "small",
+                  this.state.allOrders.map((orderItem) =>
+                    orderItem.orderArr.map((aOrder) => (
+                      <Row key={orderItem.id + "-" + aOrder.productId}>
+                        <Col xs={7} md={4}>
+                          {aOrder.productName}
+                        </Col>
+                        <Col xs={2} md={2}>
+                          {aOrder.price}
+                        </Col>
+                        <Col xs={4} md={3}>
+                          <div>
+                            <div style={{ float: "left" }}>
+                              <Button
+                                style={{ height: 30, width: 30 }}
+                                onClick={() => {
+                                  this.changeItemCount(this.aOrder);
                                 }}
-                                aria-label="Username"
-                                aria-describedby="basic-addon1"
-                              />
-                            </InputGroup>
+                              >
+                                +
+                            </Button>
+                            </div>
+                            <div style={{ float: "left" }}>
+                              <InputGroup style={{ width: 40, height: 30 }}>
+                                <InputGroup.Prepend></InputGroup.Prepend>
+                                <FormControl
+                                  style={{
+                                    width: 40,
+                                    height: 30,
+                                    fontSize: "small",
+                                  }}
+                                  aria-label="Username"
+                                  aria-describedby="basic-addon1"
+                                />
+                              </InputGroup>
+                            </div>
+                            <div style={{ float: "left" }}>
+                              <Button style={{ height: 30, width: 30 }}>-</Button>
+                            </div>
                           </div>
-                          <div style={{ float: "left" }}>
-                            <Button style={{ height: 30, width: 30 }}>-</Button>
-                          </div>
-                        </div>
-                      </Col>
-                      <Col xs={4} md={2}>
-                        {(aOrder.price * aOrder.qty).toFixed(2)}
-                      </Col>
-                      <Col xs={1} md={1}>
-                        <FontAwesomeIcon
-                          key={orderItem.id + "-" + aOrder.productId}
-                          icon={faTrash}
-                          onClick={() => {
-                            this.functionCall(
-                              orderItem.id + "-" + aOrder.productId,
-                              orderItem.orderArr,
-                              aOrder
-                            );
-                          }}
-                        />
-                      </Col>
-                    </Row>
-                  ))
-                )
-              )}
+                        </Col>
+                        <Col xs={4} md={2}>
+                          {(aOrder.price * aOrder.qty).toFixed(2)}
+                        </Col>
+                        <Col xs={1} md={1}>
+                          <FontAwesomeIcon
+                            key={orderItem.id + "-" + aOrder.productId}
+                            icon={faTrash}
+                            onClick={() => {
+                              this.functionCall(
+                                orderItem.id + "-" + aOrder.productId,
+                                orderItem.orderArr,
+                                aOrder
+                              );
+                            }}
+                          />
+                        </Col>
+                      </Row>
+                    ))
+                  )
+                )}
               <Row>
                 <Col style={{ textAlign: "right" }}>
                   {(500000.0).toFixed(2)}
@@ -487,7 +489,7 @@ class NavBar extends Component {
   async addUser(obj) {
     try {
       alert(obj);
-      let res = await axios.post("http://localhost:4000/api/users", obj);
+      let res = await axios.post(API_BACKEND_ENDPOINT_SERVER + "/api/users", obj);
       this.setState({
         loginStatus:
           obj.userFirstName.substring(0, 1) + ". " + obj.userLastName,
@@ -529,8 +531,8 @@ class NavBar extends Component {
   async loginProcess() {
     alert(
       this.state.loginEmail +
-        " - " +
-        document.getElementById("loginPasswordId").value
+      " - " +
+      document.getElementById("loginPasswordId").value
     );
     /*let userObj = {
           userEmail: this.state.loginEmail,
@@ -574,7 +576,7 @@ class NavBar extends Component {
               setAuthTokens(authResponseToAuthTokens(res));
             };*/
 
-      res = await axios.post("http://localhost:4000/api/auth", {
+      res = await axios.post(API_BACKEND_ENDPOINT_SERVER + "/api/auth", {
         userEmail: userObj.userEmail,
         userPassword: this.state.loginPassword,
       });
@@ -647,7 +649,7 @@ class NavBar extends Component {
             setAuthTokens(authResponseToAuthTokens(res));
           };*/
 
-      let res = await axios.post("http://localhost:4000/api/auth", {
+      let res = await axios.post(API_BACKEND_ENDPOINT_SERVER + "/api/auth", {
         userEmail: userObj.userEmail,
         userPassword: this.state.loginPassword,
       });
@@ -699,7 +701,7 @@ class NavBar extends Component {
       var diff =
         Math.abs(
           new Date(this.getCookie("myUserTokenSetup")).getTime() -
-            new Date(Date.now() + 1 * 24 * 60 * 60 * 1000)
+          new Date(Date.now() + 1 * 24 * 60 * 60 * 1000)
         ) / 3600000;
       //alert(diff);
       if (diff > 24) {
@@ -765,7 +767,7 @@ class NavBar extends Component {
 
   async updateCart(componentKey, selectedOrder) {
     var { data } = await axios.get(
-      "http://localhost:4000/api/orders/" + this.getCookie("myToken3")
+      API_BACKEND_ENDPOINT_SERVER + "/api/orders/" + this.getCookie("myToken3")
     );
     //alert(JSON.stringify(productsArr));
     let ordersArray = [];
@@ -841,7 +843,7 @@ class NavBar extends Component {
     return this.state.showModal;
   };
 
-  changeItemCount = (obj) => {};
+  changeItemCount = (obj) => { };
 
   async componentDidMount() {
     debugger;
@@ -868,7 +870,7 @@ class NavBar extends Component {
     }
     /*this.setState({ loginStatus: (typeof(this.getCookie("myToken3")) != "undefined" || this.getCookie("myToken3") != "" || this.getCookie("myToken3") != null) ? this.getCookie("myFName").substr(0,1)+". "+this.getCookie("myLName") : "Signup/Login"});*/
     var { data } = await axios.get(
-      "http://localhost:4000/api/customers/" + this.getCookie("myToken3")
+      API_BACKEND_ENDPOINT_SERVER + "/api/customers/" + this.getCookie("myToken3")
     );
     //alert(JSON.stringify(productsArr));
     let customersArr = [];
@@ -896,7 +898,7 @@ class NavBar extends Component {
     }
 
     var { data } = await axios.get(
-      "http://localhost:4000/api/orders/" + this.getCookie("myToken3")
+      API_BACKEND_ENDPOINT_SERVER + "/api/orders/" + this.getCookie("myToken3")
     );
     //alert(JSON.stringify(productsArr));
     let ordersArray = [];
@@ -927,8 +929,8 @@ class NavBar extends Component {
       this.getCookie("myToken3") == null
         ? 0
         : data["orders"].length == 0
-        ? 0
-        : ordersArray[0].orderArr.length;
+          ? 0
+          : ordersArray[0].orderArr.length;
 
     this.setState({ allCustomers: customersArr });
     this.setState({
@@ -936,8 +938,8 @@ class NavBar extends Component {
         this.getCookie("myToken3") == null
           ? []
           : data["orders"].length == 0
-          ? []
-          : ordersArray,
+            ? []
+            : ordersArray,
     });
     this.setState({ numberOfItems: numberOfItemsObj });
     this.setState({ isInitial: true });

@@ -29,6 +29,8 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { faCoffee2 } from "@fortawesome/fontawesome-svg-core";
 
+import { API_BACKEND_ENDPOINT_SERVER } from "../constants/Config";
+
 class Orders extends Component {
   state = {
     productId: 99,
@@ -224,7 +226,7 @@ class Orders extends Component {
 
   async updateCart(componentKey, selectedOrder) {
     var { data } = await axios.get(
-      "http://localhost:4000/api/orders/" + this.getCookie("myToken3")
+      API_BACKEND_ENDPOINT_SERVER + "/api/orders/" + this.getCookie("myToken3")
     );
     //alert(JSON.stringify(productsArr));
     let ordersArray = [];
@@ -242,7 +244,7 @@ class Orders extends Component {
       (x) => x.productId != selectedOrder.productId
     );
 
-    const res = await axios.put("http://localhost:4000/api/orders/" + orderId, {
+    const res = await axios.put(API_BACKEND_ENDPOINT_SERVER + "/api/orders/" + orderId, {
       orderArr: existingOrderItems,
     });
     document.location.reload(true);
@@ -264,7 +266,7 @@ class Orders extends Component {
   async componentDidMount() {
     this.setState({ initLoad: true });
     var { data } = await axios.get(
-      "http://localhost:4000/api/orders/" + this.getCookie("myToken3")
+      API_BACKEND_ENDPOINT_SERVER + "/api/orders/" + this.getCookie("myToken3")
     );
     //alert(JSON.stringify(productsArr));
     let ordersArray = [];

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Product from "./Product";
 import axios from "axios";
+import { API_BACKEND_ENDPOINT_SERVER } from "../constants/Config";
 
 class Products extends Component {
   state = {
@@ -41,7 +42,7 @@ class Products extends Component {
   async componentDidMount() {
     debugger;
 
-    var { data } = await axios.get("http://localhost:4000/api/products");
+    var { data } = await axios.get(API_BACKEND_ENDPOINT_SERVER + "/api/products");
 
     console.log(JSON.stringify(data));
 

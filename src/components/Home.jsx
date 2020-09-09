@@ -4,6 +4,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import CurrencyFile from "../rates";
 import home from "../home";
 //import { addTodo } from "redux/actions";
+import { API_BACKEND_ENDPOINT_SERVER } from "../constants/Config";
 
 import {
   Button,
@@ -949,6 +950,7 @@ class Home extends Component {
     });
     return this.state.currencyList;
   }
+
   changeCurrency = (currencyParam, priceParam) => {
     debugger;
     //alert(currencyParam + " - " + priceParam);
@@ -1006,7 +1008,7 @@ class Home extends Component {
 
   async updateCart(componentKey, selectedOrder) {
     var { data } = await axios.get(
-      "http://localhost:4000/api/orders/" + home.getCookie("myToken3")
+      API_BACKEND_ENDPOINT_SERVER + "/api/orders/" + home.getCookie("myToken3")
     );
     //alert(JSON.stringify(productsArr));
     let ordersArray = [];
@@ -1024,7 +1026,7 @@ class Home extends Component {
       (x) => x.productId != selectedOrder.productId
     );
 
-    const res = await axios.put("http://localhost:4000/api/orders/" + orderId, {
+    const res = await axios.put(API_BACKEND_ENDPOINT_SERVER + "/api/orders/" + orderId, {
       orderArr: existingOrderItems,
     });
 
@@ -1204,7 +1206,7 @@ class Home extends Component {
     } else {
       //alert("hi");
       var { data } = await axios.get(
-        "http://localhost:4000/api/orders/" + home.getCookie("myToken3")
+        API_BACKEND_ENDPOINT_SERVER + "/api/orders/" + home.getCookie("myToken3")
       );
       //alert(JSON.stringify(productsArr));
       let ordersArray = [];
@@ -1290,7 +1292,7 @@ class Home extends Component {
   async updateOrder(obj, updateingOrder) {
     const json = JSON.stringify({ updateingOrder });
     //const res = await axios.put("http://localhost:4000/api/orders/" + obj._id,json);
-    const res = await axios.put("http://localhost:4000/api/orders/" + obj._id, {
+    const res = await axios.put(API_BACKEND_ENDPOINT_SERVER + "/api/orders/" + obj._id, {
       orderArr: updateingOrder,
     });
   }
@@ -1313,7 +1315,7 @@ class Home extends Component {
     }*/
 
     try {
-      let res = await axios.post("http://localhost:4000/api/orders/", obj);
+      let res = await axios.post(API_BACKEND_ENDPOINT_SERVER + "/api/orders/", obj);
       this.setState({ itemCount: this.state.itemCount + 1 });
     } catch (error) {
       alert("Saving Error...");
@@ -1420,7 +1422,7 @@ document.cookie = cookieName + "=" + cookieString + ";" + " Path=/; Expires=Thu,
       var diff =
         Math.abs(
           new Date(this.getCookie("myUserTokenSetup")).getTime() -
-            new Date(Date.now() + 1 * 24 * 60 * 60 * 1000)
+          new Date(Date.now() + 1 * 24 * 60 * 60 * 1000)
         ) / 3600000;
       //alert(diff);
       if (diff > 24) {
@@ -1470,7 +1472,7 @@ document.cookie = cookieName + "=" + cookieString + ";" + " Path=/; Expires=Thu,
 
   async loadUserOrders() {
     var { data } = await axios.get(
-      "http://localhost:4000/api/orders/" + home.getCookie("myToken3")
+      API_BACKEND_ENDPOINT_SERVER + "/api/orders/" + home.getCookie("myToken3")
     );
     //alert(JSON.stringify(productsArr));
     let ordersArr = [];
@@ -1500,8 +1502,8 @@ document.cookie = cookieName + "=" + cookieString + ";" + " Path=/; Expires=Thu,
         home.getCookie("myToken3") == null
           ? []
           : data["orders"].length == 0
-          ? []
-          : ordersArr,
+            ? []
+            : ordersArr,
     });
   }
 
@@ -1517,12 +1519,12 @@ document.cookie = cookieName + "=" + cookieString + ";" + " Path=/; Expires=Thu,
     this.setState({
       loginStatus:
         typeof home.getCookie("myToken3") != "undefined" ||
-        home.getCookie("myToken3") != ""
+          home.getCookie("myToken3") != ""
           ? home.getCookie("myToken3")
           : "Signup/Login",
     });
     this.currency();
-    var { data } = await axios.get("http://localhost:4000/api/products");
+    var { data } = await axios.get(API_BACKEND_ENDPOINT_SERVER + "/api/products");
 
     //alert(JSON.stringify(data["products"][0]["productName"]));
     /*alert(
@@ -1563,7 +1565,7 @@ document.cookie = cookieName + "=" + cookieString + ";" + " Path=/; Expires=Thu,
       });
     }
 
-    var { data } = await axios.get("http://localhost:4000/api/customers/");
+    var { data } = await axios.get(API_BACKEND_ENDPOINT_SERVER + "/api/customers/");
     //alert(JSON.stringify(productsArr));
     let customersArr = [];
 
@@ -1590,7 +1592,7 @@ document.cookie = cookieName + "=" + cookieString + ";" + " Path=/; Expires=Thu,
     }
 
     var { data } = await axios.get(
-      "http://localhost:4000/api/orders/" + home.getCookie("myToken3")
+      API_BACKEND_ENDPOINT_SERVER + "/api/orders/" + home.getCookie("myToken3")
     );
     //alert(JSON.stringify(productsArr));
     let ordersArr = [];
@@ -1620,8 +1622,8 @@ document.cookie = cookieName + "=" + cookieString + ";" + " Path=/; Expires=Thu,
       home.getCookie("myToken3") == null
         ? 0
         : data["orders"].length == 0
-        ? 0
-        : ordersArr[0].orderArr.length;
+          ? 0
+          : ordersArr[0].orderArr.length;
 
     this.setState({ itemCount: numberOfItemsObj });
 
@@ -1632,8 +1634,8 @@ document.cookie = cookieName + "=" + cookieString + ";" + " Path=/; Expires=Thu,
         home.getCookie("myToken3") == null
           ? []
           : data["orders"].length == 0
-          ? []
-          : ordersArr,
+            ? []
+            : ordersArr,
     });
     //this.setState({ currencyList: this.currency() });
     //alert(JSON.stringify(this.state.allProducts.filter(objss => objss.categoryName == "iPad")[0].categoryName));
