@@ -3,29 +3,14 @@ import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import CurrencyFile from "../rates";
 import { Link } from "react-router-dom";
-//import { addTodo } from "redux/actions";
 
-import {
-  Button,
-  Pagination,
-  Collapse,
-  Modal,
-  Container,
-  Row,
-  Col,
-  InputGroup,
-  FormControl,
-  DropdownButton,
-  Dropdown,
+import {Button,Pagination,Collapse,Modal,Container,
+  Row,Col,InputGroup,FormControl,DropdownButton,Dropdown,
 } from "react-bootstrap";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faHome,
-  faShoppingCart,
-  faUserPlus,
-  faSearch,
-  faTrash,
+  faHome,faShoppingCart,faUserPlus,faSearch,faTrash,
 } from "@fortawesome/free-solid-svg-icons";
 import { faCoffee2 } from "@fortawesome/fontawesome-svg-core";
 
@@ -43,11 +28,13 @@ class Orders extends Component {
     orderProductString: "",
     fullOrder: [],
     selectedOrderItem: {},
+    itemAmount: 0,
+    totalAmount: 0,
   };
   render() {
     return (
       <React.Fragment>
-        <h1>Apple Product Orders{this.state.productId}</h1>
+        <h1>Apple Product Orders</h1>
         <Container>
           {this.state.allOrders
             .filter((x) => x.customerToken == this.getCookie("myToken3"))
@@ -119,7 +106,9 @@ class Orders extends Component {
               ))
             )}
           <Row>
-            <Col style={{ textAlign: "right" }}>{(500000.0).toFixed(2)}</Col>
+            <Col style={{ textAlign: "right" }}>
+              {this.state.totalAmount.toFixed(2)}
+            </Col>
           </Row>
 
           <Row
@@ -210,25 +199,18 @@ class Orders extends Component {
   };
 
   deleteItem = () => {
-    this.functionCall(
-      this.state.orderProductString,
-      this.state.fullOrder,
-      this.state.selectedOrderItem
-    );
+    this.functionCall(this.state.orderProductString,this.state.fullOrder,this.state.selectedOrderItem);
   };
 
   functionCall = (event, fullOrder, selectedOrder) => {
-    debugger;
-    alert();
     this.updateCart(event, selectedOrder);
-    //console.log(event.target.getAttribute('key'));
   };
 
   async updateCart(componentKey, selectedOrder) {
     var { data } = await axios.get(
       API_BACKEND_ENDPOINT_SERVER + "/api/orders/" + this.getCookie("myToken3")
     );
-    //alert(JSON.stringify(productsArr));
+
     let ordersArray = [];
     var dataObj = data["orders"];
     debugger;
@@ -239,7 +221,6 @@ class Orders extends Component {
       existingOrderItems = orderItem.orderArr;
     });
 
-    //existingOrderItems = existingOrderItems.splice(existingOrderItems.indexOf(selectedOrder),1);
     existingOrderItems = existingOrderItems.filter(
       (x) => x.productId != selectedOrder.productId
     );
@@ -250,6 +231,12 @@ class Orders extends Component {
     document.location.reload(true);
   }
 
+  showAmount = (ItemTotalPriceAmount) => {
+    this.setState({
+      totalAmount: this.state.totalAmount + ItemTotalPriceAmount,
+    });
+  };
+
   changeItemCount = (counter) => {
     this.setState({ initLoad: false });
     if (this.state.selectedItemCount + counter < 1) {
@@ -259,7 +246,6 @@ class Orders extends Component {
         selectedItemCount: this.state.selectedItemCount + counter,
       });
     }
-    //alert(this.state.selectedItemCount);
     return this.state.selectedItemCount;
   };
 
@@ -268,7 +254,7 @@ class Orders extends Component {
     var { data } = await axios.get(
       API_BACKEND_ENDPOINT_SERVER + "/api/orders/" + this.getCookie("myToken3")
     );
-    //alert(JSON.stringify(productsArr));
+
     let ordersArray = [];
 
     if (data["orders"][0] == null) {
@@ -294,6 +280,16 @@ class Orders extends Component {
     this.setState({
       allOrders: this.getCookie("myToken3") == null ? [] : ordersArray,
     });
+
+    this.state.allOrders
+      .filter((x) => x.customerToken == this.getCookie("myToken3"))
+      .map((orderItem) =>
+        orderItem.orderArr.map((aOrder) =>
+          this.setState({
+            totalAmount: this.state.totalAmount + aOrder.price * aOrder.qty,
+          })
+        )
+      );
   }
 }
 

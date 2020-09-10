@@ -5,7 +5,7 @@ import { Button, Pagination, Collapse, Container, Row, Col } from "react-bootstr
 import axios from "axios";
 
 class Product extends Component {
-  state = { productId: 99,
+  state = { 
      isAvailable: false,
      selectedProduct: {},
      prodInfoOpen: false
