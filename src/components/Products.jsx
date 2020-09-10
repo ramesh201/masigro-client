@@ -42,7 +42,7 @@ class Products extends Component {
   async componentDidMount() {
     debugger;
 
-    var { data } = await axios.get(API_BACKEND_ENDPOINT_SERVER + "/api/products");
+    var { data } = await axios.get(API_BACKEND_ENDPOINT_SERVER + "/api/products/"+this.props.match.params.categoryName);
 
     console.log(JSON.stringify(data));
 

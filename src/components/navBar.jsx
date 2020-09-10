@@ -529,15 +529,6 @@ class NavBar extends Component {
   };
 
   async loginProcess() {
-    alert(
-      this.state.loginEmail +
-      " - " +
-      document.getElementById("loginPasswordId").value
-    );
-    /*let userObj = {
-          userEmail: this.state.loginEmail,
-          userPassword: document.getElementById("loginPasswordId").value
-      }*/
 
     let userObj = {
       userFirstName: "Test",
@@ -705,7 +696,7 @@ class NavBar extends Component {
         ) / 3600000;
       //alert(diff);
       if (diff > 24) {
-        debugger;
+        //debugger;
         alert("New Login User Adding");
         this.eraseCookie("myToken3");
         this.eraseCookie("myFName");

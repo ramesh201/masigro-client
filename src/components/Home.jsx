@@ -33,34 +33,10 @@ import { faCoffee2 } from "@fortawesome/fontawesome-svg-core";
 import axios from "axios";
 import nav from "./navBar";
 import Login from "../home";
-//import { connect } from "react-redux";
-//import { createStore } from 'redux';
-//import todoApp from '../node_modules/';
-//const store = createStore(todoApp);
-//import { createStore } from 'redux';
-//import reducer from './reducers';
-
-//import { createStore , connect } from 'redux'
-//import NavBar from "./navBar";
-//import { Provider } from 'react-redux'
-//import App from './components/App'
-//import reducer from './reducers/rootReducer'
-
-//const store = createStore(reducer);
-//import { addTodo, deleteTodo, toggleTodo } from '././../../node_modules/react-redux/es/connect'
-
-/*
-const mapDispatchToProps = {
-    addTodo,
-    deleteTodo,
-    toggleTodo
-  }*/
 
 class Home extends Component {
-  //state = {productId: 99, isAvailable: false,cartItemCountBtn: 0};
   constructor(props) {
     super(props);
-    //const [open] = useState(false);
     this.state = {
       cartItemCountBtn: 0,
       open: false,
@@ -81,15 +57,12 @@ class Home extends Component {
       updatedCurrencyPrice: "0.00",
       showConfModal: false,
       itemCount: 0,
-      showAuthConfModal: false,
-      //selectedItemCount: 0
+      showAuthConfModal: false
     };
   }
 
   render() {
     const props = this.props;
-    //"20px 200px 10px 200px"
-    //<input value={this.state.value} type="text" onChange={() => {this.onChange(this.value)}} />
     return (
       <React.Fragment>
         <div>
@@ -111,7 +84,7 @@ class Home extends Component {
                           padding: "2px",
                         }}
                       >
-                        {this.state.itemCount}
+                        {this.state.itemCount < 10 ? "0"+this.state.itemCount : this.state.itemCount}
                       </span>
                       <Link
                         onClick={() => {
@@ -679,7 +652,7 @@ class Home extends Component {
             <Button variant="secondary" onClick={this.handleClose}>
               Close
             </Button>
-            <Button variant="primary" onClick={this.dummySaving}>
+            <Button variant="primary" onClick={this.OrderItemSaving}>
               Add Item
             </Button>
           </Modal.Footer>
@@ -1118,7 +1091,6 @@ class Home extends Component {
   };
 
   navProducts = (categoryName) => {
-    debugger;
     this.props.history.push("/Products/" + categoryName);
   };
 
@@ -1157,7 +1129,7 @@ class Home extends Component {
     return this.state.value;
   };
 
-  dummySaving = () => {
+  OrderItemSaving = () => {
     //this.setCookie("myToken3", "18802-9802-95873", 1);
     alert("Saving to DB...");
     this.getCustomerOrders(this.state.selectedProduct);
