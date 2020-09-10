@@ -1,0 +1,1 @@
+export const API_BACKEND_ENDPOINT_SERVER = "http://localhost:4000";

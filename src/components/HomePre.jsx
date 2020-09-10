@@ -17,6 +17,8 @@ import {
 } from "react-bootstrap";
 import axios from "axios";
 
+import { API_BACKEND_ENDPOINT_SERVER } from "../constants/Config";
+
 class Home extends Component {
   //state = {productId: 99, isAvailable: false,cartItemCountBtn: 0};
   constructor(props) {
@@ -37,60 +39,60 @@ class Home extends Component {
       <React.Fragment >
 
         <div>
-        <h1 style={{backgroundColor: "silver"}}>
-          <a onClick={this.navMacBooks}>Apple - MacBooks</a>
-        </h1>
+          <h1 style={{ backgroundColor: "silver" }}>
+            <a onClick={this.navMacBooks}>Apple - MacBooks</a>
+          </h1>
 
-        <div className="container" style={{ marginTop: "20px" }}>
-          <div className="row">
-            {this.state.allProducts.filter(objss => objss.categoryName == "macbook").map((productItem) => (
-              <div className="col" key={productItem.id}>
-                <div className="card" style={{ width: "21rem" }}>
-                  <img
-                    className="card-img-top"
-                    src={productItem.imgUrl}
-                    alt="Card image cap"
-                  />
-                  <div className="card-body">
-                    <h5 className="card-title">{productItem.name}</h5>
-                    <p className="card-text">
-                      <span style={{ fontSize: 15 }}>
-                        13.3" Retina display,4-core Intel Core i5,256 GB
-                        Storage,Touch bar & touch ID..
+          <div className="container" style={{ marginTop: "20px" }}>
+            <div className="row">
+              {this.state.allProducts.filter(objss => objss.categoryName == "macbook").map((productItem) => (
+                <div className="col" key={productItem.id}>
+                  <div className="card" style={{ width: "21rem" }}>
+                    <img
+                      className="card-img-top"
+                      src={productItem.imgUrl}
+                      alt="Card image cap"
+                    />
+                    <div className="card-body">
+                      <h5 className="card-title">{productItem.name}</h5>
+                      <p className="card-text">
+                        <span style={{ fontSize: 15 }}>
+                          13.3" Retina display,4-core Intel Core i5,256 GB
+                          Storage,Touch bar & touch ID..
                       </span>
-                      <br />
-                      <span
-                        style={{
-                          color: "blue",
-                          fontSize: 14,
-                          fontWeight: "bold",
-                        }}
+                        <br />
+                        <span
+                          style={{
+                            color: "blue",
+                            fontSize: 14,
+                            fontWeight: "bold",
+                          }}
+                        >
+                          Rs. 267,000
+                      </span>
+                      </p>
+
+                      <Button
+                        variant="primary"
+                        className="btn btn-success"
+                        onClick={() => { this.handleShow(productItem) }}
                       >
-                        Rs. 267,000
-                      </span>
-                    </p>
-
-                    <Button
-                      variant="primary"
-                      className="btn btn-success"
-                      onClick={() => {this.handleShow(productItem)}}
-                    >
-                      Add Cart
+                        Add Cart
                     </Button>
-                    <Button
-                      style={{ margin: "0px 0px 0px 20px" }}
-                      onClick={this.go11}
-                      aria-controls="example-collapse-text"
-                      aria-expanded={this.state.open}
-                    >
-                      More Info &raquo;
+                      <Button
+                        style={{ margin: "0px 0px 0px 20px" }}
+                        onClick={this.go11}
+                        aria-controls="example-collapse-text"
+                        aria-expanded={this.state.open}
+                      >
+                        More Info &raquo;
                     </Button>
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
-        </div>
         </div>
 
         <h1>
@@ -131,7 +133,7 @@ class Home extends Component {
                     <Button
                       variant="primary"
                       className="btn btn-success"
-                      onClick={() => {this.handleShow(productItem)}}
+                      onClick={() => { this.handleShow(productItem) }}
                     >
                       Add Cart
                     </Button>
@@ -186,7 +188,7 @@ class Home extends Component {
                     <Button
                       variant="primary"
                       className="btn btn-success"
-                      onClick={() => {this.handleShow(productItem)}}
+                      onClick={() => { this.handleShow(productItem) }}
                     >
                       Add Cart
                     </Button>
@@ -613,34 +615,34 @@ class Home extends Component {
             <Container>
               <Row>
                 <Col xs={12} md={8}>
-                <img src={this.state.selectedProduct.imgUrl} style={{width: 50,height: 50}} /> {this.state.selectedProduct.name}
+                  <img src={this.state.selectedProduct.imgUrl} style={{ width: 50, height: 50 }} /> {this.state.selectedProduct.name}
                 </Col>
                 <Col xs={6} md={4}>
-                    <div>
-                        <div style={{float: "left"}}>
-                        <Button> 
-                            +
+                  <div>
+                    <div style={{ float: "left" }}>
+                      <Button>
+                        +
                   </Button>
-                        </div>
-                        <div style={{float: "left"}}>
-                        <InputGroup style={{width: 50}}>
-    <InputGroup.Prepend>
-    </InputGroup.Prepend>
-    <FormControl
-      aria-label="Username"
-      aria-describedby="basic-addon1"
-    />
-  </InputGroup>
-                  </div>
-                  <div style={{float: "left"}}>
-                  <Button>-</Button>
-                  </div>
+                    </div>
+                    <div style={{ float: "left" }}>
+                      <InputGroup style={{ width: 50 }}>
+                        <InputGroup.Prepend>
+                        </InputGroup.Prepend>
+                        <FormControl
+                          aria-label="Username"
+                          aria-describedby="basic-addon1"
+                        />
+                      </InputGroup>
+                    </div>
+                    <div style={{ float: "left" }}>
+                      <Button>-</Button>
+                    </div>
                   </div>
                 </Col>
               </Row>
 
-              
-              
+
+
             </Container>
           </Modal.Body>
           <Modal.Footer>
@@ -740,7 +742,7 @@ class Home extends Component {
     debugger;
     alert(JSON.stringify(obj));
     this.setState({ modalShow: true });
-    this.setState({selectedProduct: obj});
+    this.setState({ selectedProduct: obj });
     return this.state.modalShow;
     //setShow(true);
   };
@@ -764,7 +766,7 @@ class Home extends Component {
 
   async componentDidMount() {
     debugger;
-    let { data } = await axios.get("http://localhost:4000/api/products/");
+    let { data } = await axios.get(API_BACKEND_ENDPOINT_SERVER + "/api/products/");
     //alert(JSON.stringify(data["products"][0]["productName"]));
     /*alert(
       JSON.stringify(data) +
@@ -793,7 +795,7 @@ class Home extends Component {
     }
 
     //alert(JSON.stringify(productsArr));
-    
+
     this.setState({ allProducts: productsArr });
     //alert(JSON.stringify(this.state.allProducts.filter(objss => objss.categoryName == "iPad")[0].categoryName));
   }
@@ -803,12 +805,12 @@ export default Home;
 
 
 <Form inline>
-<FormControl
-  type="text"
-  placeholder="Search"
-  className="mr-sm-2"
-/>
-<Button variant="outline-success">
-  <FontAwesomeIcon icon={faSearch} />
-</Button>
+  <FormControl
+    type="text"
+    placeholder="Search"
+    className="mr-sm-2"
+  />
+  <Button variant="outline-success">
+    <FontAwesomeIcon icon={faSearch} />
+  </Button>
 </Form>
